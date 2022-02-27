@@ -33,6 +33,26 @@ pipeline {
                 echo 'Packaging the Project with maven package'
             }
         }
+   
+        stage('Containerize') {
+            steps {
+
+                // Run Docker Build Command
+                sh "docker build -t eStoreBackend ."
+
+                echo 'Containerizing the App with Docker'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+
+                // Run docker run command with detached mode
+                sh "docker run -d -p 9090:9090 eStoreBackend"
+
+                echo 'Deploy the App with Docker'
+            }
+        }
   
     }
 }
